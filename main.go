@@ -1,6 +1,9 @@
 package main
 
 import (
+	"os"
+	"strconv"
+
 	"github.com/dgraph-io/badger/v2"
 	"github.com/jeyem/tinyurl/web"
 	"github.com/sirupsen/logrus"
@@ -11,8 +14,12 @@ func main() {
 	if err != nil {
 		logrus.Fatal(err)
 	}
+	port, _ := strconv.Atoi(os.Getenv("PORT"))
+	if port < 80 {
+		port = 8000
+	}
 	web.Start(web.Options{
-		Port: 8000,
+		Port: port,
 		DB:   db,
 	})
 }
